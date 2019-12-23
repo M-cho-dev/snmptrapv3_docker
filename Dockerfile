@@ -1,26 +1,26 @@
-
-FROM debian
+FROM centos:7
 #author
-MAINTAINER HM CHO
-
+MAINTAINER HM CHO <hyem.cho@gmail.com># extra metadata
 # extra metadata
 LABEL version="1.0"
-LABEL description="An Image with Dockerfile for SNMP receiver Test."
+LABEL description="An Image with Dockerfile for SNMP trap receiver."
 
 # set the base image
 #FROM debian
 
 # update sources list
-RUN apt-get clean
-RUN apt-get update
+RUN yum clean all -y
+RUN yum update -y
 
 # install basic apps, one per line for better caching
-RUN apt-get install -qy vim
-RUN apt-get install net-tools
-RUN apt-get install -qy python3
-RUN apt-get install -qy python3-pip
+RUN yum install -y vim \
+&& yum install -y net-tools \
+&& yum install -y python3 \
+&& yum install -y python3-pip
+
 # cleanup
-RUN apt-get -qy autoremove
+RUN yum -y autoremove
+
 
 # add scripts to the container
 #ADD .bashrc ~/.bashrc
@@ -55,8 +55,8 @@ ENV \
 
 
 #RUN pip3 install --upgrade pip && \
-RUN  pip3 install pysmi pysnmp_mibs pysnmp
-RUN  pip3 install kafka-python 
+RUN  pip3 install pysmi pysnmp_mibs pysnmp \
+&&  pip3 install kafka-python 
 
 # volumes
 VOLUME \
